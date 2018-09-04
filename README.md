@@ -1,2 +1,1 @@
-# MemorySlice
-OK,This only a BACKUp
+# MemorySlice - A backup repository of StrayDragon
