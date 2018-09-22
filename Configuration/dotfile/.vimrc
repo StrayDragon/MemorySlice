@@ -3,7 +3,7 @@
 "显示行号
 set nu
 "语法高亮
-set syntax on
+syntax on
 "tab缩进
 set tabstop=4
 set shiftwidth=4
