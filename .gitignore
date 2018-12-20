@@ -13,3 +13,6 @@
 
 # Java
 !*.java
+
+# dotfile
+!zshrc
