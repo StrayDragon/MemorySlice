@@ -14,5 +14,8 @@
 # Java
 !*.java
 
+# Js
+!*.js
+
 # dotfile
 !.zshrc
