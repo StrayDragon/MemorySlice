@@ -15,4 +15,4 @@
 !*.java
 
 # dotfile
-!zshrc
+!.zshrc
