@@ -6,7 +6,7 @@
 | 名称 | 介绍 | 传送门 |
 |:-:|:-:|:-:|
 |Flutter Widget of the Week| 展示一些Widget基本功能, 超短视频,有个印象! | [地址](https://www.youtube.com/playlist?list=PLOU2XLYxmsIL0pH0zWe_ZOHgGhZ7UasUE) |
-||  |  |
+|Dart's Flutter Framework Study|学习资料大集合,并介绍了如何在不同的页面上保持状态(BottomNavigationBar)|[地址](https://steemit.com/utopian-io/@tensor/persisting-user-interface-state-and-building-bottom-navigation-bars-in-dart-s-flutter-framework)  |
 
 
 # 总参考 (2018年12月30日)
@@ -38,6 +38,7 @@
 
 # 其他问题:
 ## [提升体验] BottomNavigation(底部选项卡)无法保持各个页面状态:
+### 方案一
 - **关键类** : [PageStorageKey](https://docs.flutter.io/flutter/widgets/PageStorageKey-class.html), [PageStorageBucket](https://docs.flutter.io/flutter/widgets/PageStorageBucket-class.html)
 
 - **示例代码** :
@@ -75,3 +76,13 @@ class MyWidgetOrPage extend StatefulWidget{
 
 //...
 ```
+
+### 方案二
+- **关键类** : [AutomaticKeepAliveClientMixin](https://docs.flutter.io/flutter/widgets/AutomaticKeepAliveClientMixin-mixin.html)
+- **示例代码**
+  - 见 [flutter_bottomnavigationbar](https://github.com/OpenFlutter/Flutter-Notebook/tree/master/mecury_project/example/flutter_bottomnavigationbar)
+
+### 其他方案
+- **参考**
+  - [StackOverFlow](https://stackoverflow.com/a/49443009/9316144)
+  - [Persisting User Interface State and Building Bottom Navigation Bars in Dart's Flutter Framework](https://steemit.com/utopian-io/@tensor/persisting-user-interface-state-and-building-bottom-navigation-bars-in-dart-s-flutter-framework)
