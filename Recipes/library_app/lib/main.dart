@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -16,9 +9,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: '图书馆管理系统'),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -26,224 +28,84 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
   final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-String bookName = "";
-
 class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-        centerTitle: true,
       ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0),
-            child: Text('对图书馆管理系统中基本信息的录入查询功能'),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: TextField(
-              onChanged: (str) {
-                bookName = str;
-              },
-              decoration: InputDecoration(
-                labelText: '用户名',
-                hintText: '请输入英文或数字',
-              ),
-              maxLines: 1,
-              onSubmitted: (text) {},
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0),
-            child: HandleSQLiteDataWidget(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HandleSQLiteDataWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _HandleSQLiteDataWidgetState();
-  }
-}
-
-class _HandleSQLiteDataWidgetState extends State<HandleSQLiteDataWidget> {
-  String dbName = 'library.db';
-  String dbPath;
-
-  String sqlCreateTable = """
-  create table book
-(
-  id           INTEGER not null
-    constraint book_pk
-      primary key autoincrement,
-  isbn         INTEGER,
-  title        TEXT,
-  press        TEXT,
-  author       TEXT,
-  brief        TEXT,
-  amount       TEXT,
-  publish_time TEXT
-);
-
-create unique index book_isbn_uindex
-  on book (isbn);
-""";
-
-  String sqlQueryCount = 'SELECT COUNT(*) FROM book';
-
-  String sqlQuery = 'SELECT * FROM book';
-
-  var _result;
-
-  Future<String> _createNewDb(String dbName) async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    print(documentsDirectory);
-
-    String path = join(documentsDirectory.path, dbName);
-
-    if (await Directory(dirname(path)).exists()) {
-      await deleteDatabase(path);
-    } else {
-      try {
-        await Directory(dirname(path)).create(recursive: true);
-      } catch (e) {
-        print(e);
-      }
-    }
-    return path;
-  }
-
-  _create() async {
-    dbPath = await _createNewDb(dbName);
-    Database db = await openDatabase(dbPath);
-
-    await db.execute(sqlCreateTable);
-    await db.close();
-    setState(() {
-      _result = '创建library.db成功，创建book成功';
-    });
-  }
-
-  _add() async {
-    Database db = await openDatabase(dbPath);
-
-    String sql = """
-    INSERT INTO "book" ("isbn", "title", "press", "author", "brief", "amount")
-VALUES (9787115439789, '$bookName', '人民邮电出版社', '郭霖', '本书被广大Android 开发者誉为“Android 学习第一书”。全书系统全面、循序渐进地介绍了Android软件开发的必备知识、经验和技巧。
-
-     第2版基于Android 7.0 对第1 版进行了全面更新，将所有知识点都在最新的Android 系统上进行重新适配，使用 全新的Android Studio 开发工具代替之前的Eclipse，并添加了对Material Design、运行时权限、Gradle、RecyclerView、百分比布局、OkHttp、Lambda 表达式等全新知识点的详细讲解。
-
-     本书内容通俗易懂，由浅入深，既是Android 初学者的入门必备，也是Android 开发者的进阶首选。', '3');
-    """;
-    await db.transaction((txn) async {
-      int id = await txn.rawInsert(sql);
-    });
-
-    await db.close();
-
-    setState(() {
-      _result = "$bookName,添加成功"; //TODO:
-    });
-  }
-
-  _delete() async {
-    Database db = await openDatabase(dbPath);
-
-    String sql = "DELETE FROM book WHERE id = ?";
-
-    int count = await db.rawDelete(sql, ['1']);
-
-    await db.close();
-
-    setState(() {
-      if (count == 1) {
-        _result = "删除成功，请查看";
-      } else {
-        _result = "删除失败，请看log";
-      }
-    });
-  }
-
-  _update() async {
-    Database db = await openDatabase(dbPath);
-    String sql = "UPDATE book SET title = ? WHERE id = ?";
-    int count = await db.rawUpdate(sql, ["更换了名字", '1']);
-    print(count);
-    await db.close();
-    setState(() {
-      _result = "更新数据成功，请查看";
-    });
-  }
-
-  _queryNum() async {
-    Database db = await openDatabase(dbPath);
-    int count = Sqflite.firstIntValue(await db.rawQuery(sqlQueryCount));
-    await db.close();
-    setState(() {
-      _result = "数据条数：$count";
-    });
-  }
-
-  _query() async {
-    Database db = await openDatabase(dbPath);
-    List<Map> list = await db.rawQuery(sqlQuery);
-    await db.close();
-    setState(() {
-      _result = "数据详情：$list";
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Text('sqflite用法'),
-        ),
-        Row(
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+          // Column is also layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-                textColor: Colors.black, child: Text('创建'), onPressed: _create),
-            RaisedButton(
-              textColor: Colors.black,
-              child: Text('增'),
-              onPressed: _add,
+            Text(
+              'You have pushed the button this many times:',
             ),
-            RaisedButton(
-                textColor: Colors.black, child: Text('删'), onPressed: _delete),
-            RaisedButton(
-                textColor: Colors.black, child: Text('改'), onPressed: _update),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.display1,
+            ),
           ],
         ),
-        Row(
-          children: <Widget>[
-            RaisedButton(
-                textColor: Colors.black,
-                child: Text('查条数'),
-                onPressed: _queryNum),
-            RaisedButton(
-                textColor: Colors.black, child: Text('查详情'), onPressed: _query),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Text('结果：$_result'),
-        ),
-      ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
