@@ -7,7 +7,7 @@ import 'package:synchronized/synchronized.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:library_app/util/helper_log.dart' show log;
+import 'helper_log.dart' show log;
 
 /// **开启flutter_sqflite.debug模式**
 /// - A quick way to view SQL commands printed out is to call before opening any database
