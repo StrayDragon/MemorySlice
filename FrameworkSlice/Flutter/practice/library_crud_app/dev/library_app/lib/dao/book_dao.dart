@@ -3,34 +3,26 @@ import 'package:sqflite/sqflite.dart';
 import 'package:library_app/dao/dao.dart';
 import 'package:library_app/model/book.dart' show Book;
 import 'package:library_app/utils/helper_db_functions.dart'
-    show DBHelper, getTargetDBPath;
+    show DBHelper, getTargetDBPath, importExistingSQLiteFile;
+
+import '../utils/app_database.dart';
 
 class BookDao implements Dao<Book> {
-  static DBHelper dbHelper;
-
-  Database db;
-
-  BookDao() {
-    String path;
-    getTargetDBPath('library.sqlite').then((s) => path = s);
-    dbHelper = DBHelper(path);
-    dbHelper.getDb().then((db) => this.db = db);
-  }
+  AppDataBase appDataBase;
 
   @override
-  List<Book> fetchAll() {
+  Future<List<Book>> fetchAll() async {
+    appDataBase = AppDataBase(await getTargetDBPath('library.db'));
+    Database db = await appDataBase.getInstance();
     String sql = """
     SELECT * FROM book
     """;
-    List<Map> rawBooks;
-    db.rawQuery(sql).then((_) => rawBooks = _).whenComplete(() {
-      db.close();
-    });
-    List<Book> books = [];
-    if (rawBooks != null) {
-      books = rawBooks.map((book) => Book.fromMap(book)).toList();
-    }
-
+    List<Map> rawBooks = await db.rawQuery(sql);
+    print(rawBooks);
+    await db.close();
+    print("db closed");
+    List<Book> books =
+        rawBooks.map((book) => Book.fromMap(book)).toList() ?? [];
     return books;
   }
 

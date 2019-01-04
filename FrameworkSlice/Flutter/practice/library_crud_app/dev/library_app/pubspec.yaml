@@ -42,8 +42,8 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   # TODO: 加入已经导入的数据库
-  # assets:
-  #   - assets/example.db
+  assets:
+    - assets/library.sqlite
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

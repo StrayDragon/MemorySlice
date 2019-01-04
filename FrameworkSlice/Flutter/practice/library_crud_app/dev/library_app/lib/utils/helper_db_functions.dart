@@ -20,12 +20,16 @@ void sqlfiteDebugOn() async {
 /// **获取指定 db name 的路径**
 Future<String> getTargetDBPath(String dbName) async {
   var databasesPath = await getDatabasesPath();
+  log(databasesPath);
+
   var path = join(databasesPath, dbName);
 
+  print('[INFO] 数据库放在: $path');
+
   // 确保创建目录
-  // try {
-  //   await Directory(databasesPath).create(recursive: true);
-  // } catch (_) {}
+  try {
+    await Directory(databasesPath).create(recursive: true);
+  } catch (_) {}
   return path;
 }
 
@@ -35,12 +39,12 @@ Future<String> getTargetDBPath(String dbName) async {
 /// 这可以提高性能.
 /// - **注意**:使用该函数,避免直接或间接的引用多个相同数据库实例,以保持单数据库引用,避免死锁竞争,
 /// > 参考 :[Optimizing for performance](https://github.com/tekartik/sqflite/blob/master/doc/opening_asset_db.md#optimizing-for-performance)
-Future<Database> importExistingSQLiteFile(String assetDBName) async {
+Future<Database> openAndImportExistingSQLiteFile(String assetDBName) async {
   String path = await getTargetDBPath(assetDBName);
   Database db;
 
   try {
-    db = await openDatabase(path, readOnly: true);
+    db = await openDatabase(path);
   } catch (e) {
     log("错误 $e");
   }
@@ -54,8 +58,8 @@ Future<Database> importExistingSQLiteFile(String assetDBName) async {
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(path).writeAsBytes(bytes);
 
-    // 打开这个数据库
-    db = await openDatabase(path, readOnly: true);
+    // open the database
+    db = await openDatabase(path);
   } else {
     log("打开已存数据库");
   }
@@ -66,10 +70,12 @@ Future<Database> importExistingSQLiteFile(String assetDBName) async {
 /// **防止数据库的辅助类**
 /// - 内部使用lock()来确保数据库只打开一次
 class DBHelper {
-  final String path;
-  DBHelper(this.path);
+  final String dbName;
+
+  DBHelper(this.dbName);
+
   Database _db;
-  final _lock = new Lock();
+  final _lock = Lock();
 
   /// **获取数据库单例**
   Future<Database> getDb() async {
@@ -77,7 +83,8 @@ class DBHelper {
       await _lock.synchronized(() async {
         // Check again once entering the synchronized block
         if (_db == null) {
-          _db = await openDatabase(path);
+//					_db = await openDatabase(path);
+          _db = await openAndImportExistingSQLiteFile(dbName);
         }
       });
     }

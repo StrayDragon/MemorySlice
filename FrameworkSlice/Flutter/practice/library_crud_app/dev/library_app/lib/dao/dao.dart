@@ -1,7 +1,7 @@
 import 'dart:async';
 
 abstract class Dao<M> {
-  List<M> fetchAll();
+  Future<List<M>> fetchAll();
 
   Future<bool> modifyInfoById(int uniqueId, Map<String, dynamic> updatingInfo);
 
