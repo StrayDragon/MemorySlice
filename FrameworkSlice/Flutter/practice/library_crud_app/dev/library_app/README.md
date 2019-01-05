@@ -51,3 +51,29 @@
 "values",
 "when","where"
 ```
+
+# 项目结构
+
+```bash
+lib
+├──   app
+│   ├──   controller
+│   │   └──   not_implemented.todo
+│   ├──   model
+│   │   ├──   dao
+│   │   │   ├──   book_dao.dart
+│   │   │   └──   dao.dart
+│   │   └──   entity
+│   │       ├──   book.dart
+│   │       └──   borrower.dart
+│   └──   view
+│       └──   not_implemented.todo
+├──   config
+│   └──   app_database.dart
+├──   util
+│   ├──   helper_db_functions.dart
+│   └──   helper_log.dart
+└──main.dart
+
+8 directories, 10 files
+```

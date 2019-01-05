@@ -1,11 +1,11 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:library_app/dao/dao.dart';
-import 'package:library_app/model/book.dart' show Book;
-import 'package:library_app/utils/helper_db_functions.dart'
+import 'package:library_app/config/app_database.dart';
+import 'package:library_app/util/helper_db_functions.dart'
     show DBHelper, getTargetDBPath, importExistingSQLiteFile;
+import 'package:library_app/app/model/entity/book.dart' show Book;
 
-import '../utils/app_database.dart';
+import 'dao.dart';
 
 class BookDao implements Dao<Book> {
   AppDataBase appDataBase;

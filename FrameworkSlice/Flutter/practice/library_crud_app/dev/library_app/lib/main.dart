@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'dao/book_dao.dart';
-import 'utils/helper_log.dart';
+import 'app/model/dao/book_dao.dart';
+import 'util/helper_log.dart';
 
 void main() => runApp(LibraryApp());
 
