@@ -12,7 +12,17 @@ class LibraryApp extends StatelessWidget {
     bookController
         .fetchAll()
         .then((_) => log(_.toString()))
-        .whenComplete(() => log('ok'));
+        .whenComplete(() => log('fetchAll ok'));
+
+//    bookController
+//        .modifyInfoById(1, {'title': 'C++ Primer', 'isbn': 123123123})
+//        .then((_) => log(_.toString()))
+//        .whenComplete(() => log('modifyInfoById ok'));
+
+//    bookController
+//        .removeById(1)
+//        .then((_) => log(_.toString()))
+//        .whenComplete(() => log('removeById ok'));
   }
 
   @override
