@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/main.cpp
+iostream
+-
+

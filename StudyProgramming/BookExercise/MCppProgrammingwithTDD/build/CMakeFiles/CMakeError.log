@@ -1,0 +1,51 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e9d8e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e9d8e.dir/build.make CMakeFiles/cmTC_e9d8e.dir/build
+make[1]: 进入目录“/home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp”
+Building C object CMakeFiles/cmTC_e9d8e.dir/CheckSymbolExists.c.o
+/usr/bin/clang-7    -o CMakeFiles/cmTC_e9d8e.dir/CheckSymbolExists.c.o   -c /home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_e9d8e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e9d8e.dir/link.txt --verbose=1
+/usr/bin/clang-7      -rdynamic CMakeFiles/cmTC_e9d8e.dir/CheckSymbolExists.c.o  -o cmTC_e9d8e 
+CMakeFiles/cmTC_e9d8e.dir/CheckSymbolExists.c.o：在函数‘main’中：
+CheckSymbolExists.c:(.text+0x19)：对‘pthread_create’未定义的引用
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [CMakeFiles/cmTC_e9d8e.dir/build.make:87：cmTC_e9d8e] 错误 1
+make[1]: 离开目录“/home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp”
+make: *** [Makefile:126：cmTC_e9d8e/fast] 错误 2
+
+File /home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d50ca/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d50ca.dir/build.make CMakeFiles/cmTC_d50ca.dir/build
+make[1]: 进入目录“/home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp”
+Building C object CMakeFiles/cmTC_d50ca.dir/CheckFunctionExists.c.o
+/usr/bin/clang-7   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_d50ca.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.11/Modules/CheckFunctionExists.c
+Linking C executable cmTC_d50ca
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d50ca.dir/link.txt --verbose=1
+/usr/bin/clang-7  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_d50ca.dir/CheckFunctionExists.c.o  -o cmTC_d50ca -lpthreads 
+/usr/bin/ld: 找不到 -lpthreads
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [CMakeFiles/cmTC_d50ca.dir/build.make:87：cmTC_d50ca] 错误 1
+make[1]: 离开目录“/home/straydragon/GitHubRepo/MemorySlice/StudyProgramming/BookExercise/MCppProgrammingwithTDD/build/CMakeFiles/CMakeTmp”
+make: *** [Makefile:126：cmTC_d50ca/fast] 错误 2
+
+

@@ -1,0 +1,1 @@
+/usr/bin/clang++-7  -g  -rdynamic CMakeFiles/twitter_test.dir/dep/googletest/googletest/src/gtest_main.cc.o CMakeFiles/twitter_test.dir/test/test.cpp.o  -o twitter_test lib/libgtestd.a -lpthread 

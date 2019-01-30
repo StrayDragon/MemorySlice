@@ -1,0 +1,1 @@
+/usr/bin/clang++-7  -g  -rdynamic CMakeFiles/study_tdd.dir/test/test.cpp.o  -o study_tdd lib/libgtestd.a lib/libgtest_maind.a lib/libgmockd.a lib/libgmock_maind.a lib/libgmockd.a lib/libgtestd.a -lpthread 
