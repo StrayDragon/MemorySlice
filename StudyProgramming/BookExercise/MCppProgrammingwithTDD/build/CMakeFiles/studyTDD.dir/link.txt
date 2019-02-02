@@ -1,1 +1,0 @@
-/usr/bin/clang++-7  -g  -rdynamic CMakeFiles/studyTDD.dir/main.cpp.o  -o studyTDD 
